@@ -1,4 +1,3 @@
-Server-client network
 
 This project was developed as part of a university course on System Programming Language (SPL).
 
