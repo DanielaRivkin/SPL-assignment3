@@ -1,10 +1,11 @@
+# Course Registration System (BGRS)
 
 This project was developed as part of a university course on System Programming Language (SPL).
 
 In this project, we implemented a Course Registration System with a server-client architecture.
 The communication between the server and the clients is performed using a custom binary protocol over TCP/IP.
 
-Communication Protocol
+## Communication Protocol
 
 The protocol defines binary messages, each beginning with an opcode (a 2-byte short number) indicating the command type.
 Following the opcode, each message includes additional data fields, depending on the specific command.
@@ -18,9 +19,9 @@ Supported client commands include:
 - Checking registered courses
 - Logging out
 
-Client-Server Connection
+## Client-Server Connection
 
-Client Side
+### Client Side
 
 The client side was implemented in C++ using Boost::asio and follows these steps:
 - Establish a TCP connection with the server.
@@ -34,7 +35,7 @@ The client uses two threads:
 
 Messages are translated between text commands and binary network messages via a dedicated encoder/decoder.
 
-Server Side
+### Server Side
 
 The server side was implemented in Java and supports two concurrency models:
 - Thread-Per-Client (TPC): A new thread is spawned for each incoming client connection.
@@ -46,21 +47,21 @@ On startup, the server:
 - Creates the necessary protocol and encoder/decoder components.
 - Starts handling incoming client requests according to the selected concurrency model.
 
-Server Implementation Details
+### Server Implementation Details
 
-TPC Mode:
+**TPC Mode:**
 - Creates a server socket.
 - For each new connection, opens a new thread (ConnectionHandler) to handle communication.
 - Each handler decodes incoming messages, processes protocol commands, and sends back responses.
 
-Reactor Mode:
+**Reactor Mode:**
 - Opens a selector-based server socket.
 - Manages client sockets using a fixed thread pool.
 - Tasks are queued and processed asynchronously as threads become available.
 
 Both models interact with the same thread-safe database.
 
-Database
+## Database
 
 The system uses a thread-safe singleton database to maintain:
 - Registered students and administrators.
@@ -69,13 +70,13 @@ The system uses a thread-safe singleton database to maintain:
 
 The database ensures safe concurrent access across multiple threads and clients.
 
-User Classes
+## User Classes
 
-- User (abstract class): Holds the common fields (username, password, login status).
-- Student (inherits User): Tracks registered courses.
-- Admin (inherits User): Manages course and student queries but cannot register for courses.
+- **User** (abstract class): Holds the common fields (username, password, login status).
+- **Student** (inherits User): Tracks registered courses.
+- **Admin** (inherits User): Manages course and student queries but cannot register for courses.
 
-Purpose
+## Purpose
 
 The purpose of this project was to practice implementing network communication and concurrency using Java and C++.
 The project required a strong understanding of:
